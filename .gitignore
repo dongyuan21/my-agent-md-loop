@@ -1,0 +1,316 @@
+# ============================================
+# Python 相关
+# ============================================
+# 虚拟环境
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# Python 编译文件
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 分发/打包
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# 单元测试 / 覆盖率报告
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+*.env
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# ============================================
+# Obsidian 相关
+# ============================================
+.obsidian/
+.obsidian/workspace
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/hotkeys.json
+.obsidian/appearance.json
+.obsidian/graph.json
+.obsidian/community-plugins.json
+.obsidian/core-plugins.json
+.obsidian/core-plugins-migration.json
+.obsidian/plugins/
+.obsidian/themes/
+.trash/
+
+# Obsidian 缓存
+.obsidian/cache/
+
+# ============================================
+# 系统文件
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================
+# IDE 和编辑器
+# ============================================
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ============================================
+# 日志文件
+# ============================================
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ============================================
+# 数据和临时文件
+# ============================================
+# 数据目录（保留目录结构，忽略内容）
+data/
+!data/.gitkeep
+data/cookies.json
+data/screenshots/
+data/debug/
+data/states/
+
+# 临时文件
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*.swo
+
+# ============================================
+# 配置和密钥文件
+# ============================================
+# 敏感配置文件（保留示例文件）
+config.yml
+config.local.yml
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# API 密钥和令牌
+*.token
+*.secret
+credentials.json
+service-account.json
+
+# ============================================
+# 浏览器和自动化工具
+# ============================================
+# Playwright
+.playwright/
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Selenium
+*.crx
+*.pem
+
+# ============================================
+# 依赖和包管理
+# ============================================
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.pnpm-store/
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+
+# ============================================
+# 构建和输出
+# ============================================
+# 构建产物
+dist/
+build/
+out/
+target/
+*.o
+*.a
+*.lib
+*.dll
+*.exe
+
+# ============================================
+# 其他
+# ============================================
+# 压缩文件（通常不需要版本控制）
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# 大型媒体文件（可选，根据项目需要调整）
+# *.mp4
+# *.avi
+# *.mov
+# *.mkv
+# *.pdf
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 锁文件（根据团队偏好决定是否忽略）
+# package-lock.json
+# poetry.lock
+# Pipfile.lock
