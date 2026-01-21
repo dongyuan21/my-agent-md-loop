@@ -1,1 +1,106 @@
-agent学习笔记
+# Agent 学习笔记索引
+
+> 本仓库整理了 Agent 相关的学习笔记，涵盖 DeepAgents、LangGraph、ReAct 等框架的核心概念与实践。
+
+---
+
+## 📚 目录
+
+### 一、DeepAgents 框架
+
+#### 1.1 核心概念
+- [[deepagents/deep agents大纲|DeepAgents 架构的四大支柱]] - 系统提示工程、规划工具、子代理、虚拟文件系统
+- [[deepagents/BACKEND概念|Backend 概念]] - 后端架构与设计
+- [[deepagents/STATE_SCHEMA_AND_GRAPH|状态模式与图结构]] - State Schema 和 Graph 设计
+- [[deepagents/TOOL_VS_SKILL_ANALYSIS|Tool vs Skill 分析]] - 工具与技能的区别与使用
+
+#### 1.2 规划机制 (Planning)
+- [[deepagents/plan规划/PLANNING如何实现|Planning 如何实现]] - Planning 机制的实现原理
+- [[deepagents/plan规划/Plan制定和动态任务调整算法|Plan 制定和动态任务调整算法]] - Plan 的生成与动态调整机制
+
+#### 1.3 文件系统 (Filesystem)
+- [[deepagents/filesystem文件系统/FILESYSTEM_MIDDLEWARE_ANALYSIS|文件系统中间件分析]] - Filesystem Middleware 的实现分析
+- [[deepagents/filesystem文件系统/FILESYSTEM_MIDDLEWARE_USAGE|文件系统中间件使用]] - Filesystem Middleware 的使用方法
+
+#### 1.4 其他组件
+- [[deepagents/SUMMARIZATION_MIDDLEWARE_ANALYSIS|Summarization Middleware 分析]] - 摘要中间件的实现
+- [[deepagents/ai给的学习计划|AI 给的学习计划]] - 学习路径规划
+
+---
+
+### 二、LangGraph 框架
+
+#### 2.1 基础概念
+- [[lang-graph/LANGGRAPH_简单例子|LangGraph 简单例子]] - 从用户代码到底层实现的完整解析
+- [[lang-graph/LANGGRAPH_STATEGRAPH_DEEP_DIVE|StateGraph 深度解析]] - StateGraph 的深入理解
+- [[lang-graph/LANGCHAIN_VS_LANGGRAPH|LangChain vs LangGraph]] - 两个框架的对比分析
+
+#### 2.2 Checkpoint 机制
+- [[lang-graph/checkpoint_examples/00_LANGGRAPH_CHECKPOINT_DEEP_DIVE|Checkpoint 深度解析]] - Checkpoint 机制的底层实现
+- [[lang-graph/checkpoint_examples/01_HITL_INTERRUPT_RESUME|人机交互中断与恢复]] - HITL (Human-in-the-Loop) 中断与恢复机制
+- [[lang-graph/checkpoint_examples/02_TIME_TRAVEL|时间旅行]] - 状态回溯与时间旅行功能
+- [[lang-graph/checkpoint_examples/03_MEMORY_VS_SQLITE_COMPARISON|Memory vs SQLite 对比]] - 内存与 SQLite 存储的对比
+- [[lang-graph/checkpoint_examples/04_CLEANUP_STRATEGIES|清理策略]] - Checkpoint 清理策略
+
+---
+
+### 三、ReAct vs Workflow
+
+- [[ReAct vs Workflow/几十行代码替代工作流？ReAct Agent 与 Workflow 的边界探讨|ReAct Agent 与 Workflow 的边界探讨]] - 几十行代码替代工作流的可能性分析
+- [[ReAct vs Workflow/文章大纲|文章大纲]] - 相关文章的大纲
+
+---
+
+### 四、A/B Test Agent
+
+- [[abtest-agent/README|A/B 测试参数智能搜索系统]] - 基于 DeepAgents 的 A/B 测试智能分析系统
+
+---
+
+## 🗂️ 快速导航
+
+### 按主题分类
+
+**架构设计**
+- [[deepagents/deep agents大纲|DeepAgents 四大支柱]]
+- [[deepagents/STATE_SCHEMA_AND_GRAPH|状态模式与图结构]]
+- [[lang-graph/LANGGRAPH_STATEGRAPH_DEEP_DIVE|StateGraph 深度解析]]
+
+**核心机制**
+- [[deepagents/plan规划/PLANNING如何实现|Planning 机制]]
+- [[deepagents/filesystem文件系统/FILESYSTEM_MIDDLEWARE_ANALYSIS|文件系统中间件]]
+- [[lang-graph/checkpoint_examples/00_LANGGRAPH_CHECKPOINT_DEEP_DIVE|Checkpoint 机制]]
+
+**实践应用**
+- [[abtest-agent/README|A/B Test Agent]]
+- [[ReAct vs Workflow/几十行代码替代工作流？ReAct Agent 与 Workflow 的边界探讨|ReAct vs Workflow]]
+
+---
+
+## 📖 推荐阅读顺序
+
+### 入门路径
+1. [[deepagents/deep agents大纲|DeepAgents 架构的四大支柱]] - 了解整体架构
+2. [[lang-graph/LANGGRAPH_简单例子|LangGraph 简单例子]] - 理解底层实现
+3. [[deepagents/plan规划/PLANNING如何实现|Planning 如何实现]] - 深入规划机制
+
+### 进阶路径
+1. [[lang-graph/LANGGRAPH_STATEGRAPH_DEEP_DIVE|StateGraph 深度解析]]
+2. [[lang-graph/checkpoint_examples/00_LANGGRAPH_CHECKPOINT_DEEP_DIVE|Checkpoint 深度解析]]
+3. [[deepagents/filesystem文件系统/FILESYSTEM_MIDDLEWARE_ANALYSIS|文件系统中间件分析]]
+
+### 实战路径
+1. [[abtest-agent/README|A/B Test Agent 实践]]
+2. [[ReAct vs Workflow/几十行代码替代工作流？ReAct Agent 与 Workflow 的边界探讨|ReAct vs Workflow 边界探讨]]
+
+---
+
+## 🔍 文档说明
+
+- 所有文档使用 Markdown 格式
+- 内链使用 Obsidian 风格的 `[[]]` 语法
+- 部分文档包含 Mermaid 流程图
+- 代码示例来自实际项目源码
+
+---
+
