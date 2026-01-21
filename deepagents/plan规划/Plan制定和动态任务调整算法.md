@@ -31,6 +31,65 @@ Planning 不是 DeepAgents 自己"发明"的功能，它更像是一个装配好
 
 于是框架作者干了一件很务实的事：**不让计划停留在文本里，直接把它变成状态字段。**
 
+### 文本计划 vs 状态字段
+
+先看两种方式的区别：
+
+**文本计划（停留在文本里）**：
+```
+用户：帮我写个网站
+AI：好的，我的计划是：
+1. 设计数据库结构
+2. 搭建后端API
+3. 开发前端页面
+4. 部署上线
+```
+
+这种方式的问题很明显：
+- 计划混在对话历史里，难以定位和追踪
+- 无法程序化读取和更新，只能靠模型"自觉"维护
+- 在长对话中容易"漂移"，被遗忘或忽略
+- 无法明确知道每个任务的进度（哪个完成了？哪个进行中？）
+
+**状态字段（变成状态机的一部分）**：
+```python
+state = {
+    "messages": [...],  # 对话历史
+    "todos": [          # 结构化计划
+        {"content": "设计数据库结构", "status": "completed"},
+        {"content": "搭建后端API", "status": "in_progress"},
+        {"content": "开发前端页面", "status": "pending"},
+        {"content": "部署上线", "status": "pending"}
+    ]
+}
+```
+
+这种方式的核心优势：
+
+| 维度 | 文本计划 | 状态字段 |
+|------|---------|---------|
+| **可查询** | ❌ 需要解析文本 | ✅ 直接 `state.todos[0].status` |
+| **可更新** | ❌ 需要重新生成文本 | ✅ 整表覆盖，规则明确 |
+| **可追踪** | ❌ 需要从对话历史推断 | ✅ 每个任务有明确状态 |
+| **可持久化** | ❌ 依赖对话历史 | ✅ 独立字段，可 checkpoint |
+| **防漂移** | ❌ 容易在长对话中丢失 | ✅ 始终是 state 的一部分 |
+
+### 为什么状态机更可靠？
+
+重点不是"代码维护状态机比文本更可靠"，而是"结构化状态比文本更可靠"：
+
+1. **结构化数据 > 自由文本**
+   - `state.todos` 是 `list[Todo]`，每个 Todo 有 `content` 和 `status`（pending/in_progress/completed）
+   - 程序可以直接读取和操作，不需要解析文本
+
+2. **明确的更新规则**
+   - `write_todos` 是整表覆盖，避免并发冲突
+   - 有明确的错误处理（同轮多次写入直接报错）
+
+3. **系统级保证**
+   - `OmitFromInput` 确保只能通过工具写入，不能从用户输入注入
+   - LangGraph 的状态机引擎保证状态的一致性传递
+
 文本计划容易变成传说，结构化 todo 才能成为"现场指挥"。`write_todos` 的角色就是那面旗。模型不是在写作文，而是在更新状态机里的一个字段。
 
 ---
@@ -123,7 +182,17 @@ class PlanningState(AgentState):
     todos: Annotated[NotRequired[list[Todo]], OmitFromInput]
 ```
 
-意思也很明确：todo 不是从用户输入读进来的，只能由框架内部通过工具调用写进去。
+这里的 `Todo` 是一个结构化的类型定义：
+
+```28:35:venv/lib/python3.11/site-packages/langchain/agents/middleware/todo.py
+class Todo(TypedDict):
+    content: str
+    status: Literal["pending", "in_progress", "completed"]
+```
+
+每个 todo 只有三态：`pending`（待处理）、`in_progress`（进行中）、`completed`（已完成）。
+
+`OmitFromInput` 的意思也很明确：todo 不是从用户输入读进来的，只能由框架内部通过工具调用写进去。即使你在 `agent.invoke()` 时硬塞 `{"todos": ...}`，也不会被当成合法输入的一部分。
 
 Plan 的落地路径：模型调用工具 → 工具返回 `Command(update={'todos': ...})` → 写进 `state.todos`
 
