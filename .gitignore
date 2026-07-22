@@ -314,3 +314,4 @@ target/
 # package-lock.json
 # poetry.lock
 # Pipfile.lock
+.ssh-setup/
