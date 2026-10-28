@@ -1,10 +1,13 @@
 # 从五步 Agent Loop 演进到 Pi runLoop
 
-> 协作底稿：你和 PIAgent的学习bot 都可以改这份文件。已补「读代码前：三类状态」（含 signal 等 run 级共享）；课上仍教 V0–V2，穿插 stop/abort；下一步 outer follow-up。
-
 > 面向面试口述与宿主实现：用「一步一改」把会写的五步循环，长成 Pi 1.1.0 风格的 Harness。
 >
 > 对照源码：`packages/agent/src/agent-loop.ts` 的 `runLoop`（约 L163–321），版本 **pi 1.1.0**。
+
+> 协作底稿：你和 PIAgent的学习bot 都可以改这份文件。
+>
+> **2026-10-28 今日停点：** 已过 V0–V2（标志位内层、steering）；课上穿插厘清 `abort`/`signal`（run 级共享 B，不是外层传来的）；并加上「读代码前：三类状态 ABC」。V3–V5 文中有预写，**课上未细讲**——先读源码（`agent.ts` ~L512 创建 signal，`agent-loop.ts` L167 传入 runLoop）再继续。
+
 
 ---
 
@@ -21,8 +24,6 @@
 本文只做一件事：**从一份会实现的五步伪代码出发，每版只加一个实际需求**，最后长得像 Pi 的 `runLoop`。不抄 300 行源码，只保留你面试能画、能讲的骨架。
 
 你伪代码里的 `buildContext`，在 Pi 里会拆成 `prepareNextTurn` / `transformContext` / `convertToLlm` 一类钩子——上下文组装和压缩是 Harness 的职责，不是模型自己变聪明。这块我们约好以后细抠，文中先一笔带过。
-
----
 
 ---
 
@@ -411,6 +412,15 @@ async function agentLoop(task: string, tools: Tool[], config: AgentLoopConfig) {
 > 虾皮要的 Agent Loop，业界口径是「LLM + tools in a loop」。我用五步展开讲上下文与停机，再用 Pi `runLoop` 的双层调度（steering / follow-up）和工具前钩子（`beforeToolCall`）证明做过宿主，不是背五个框。
 
 ---
+
+## 学习日志
+
+### 2026-10-28
+- 课上：V0→V1→V2；澄清 steering 两处捞、队列+检查点、与 follow-up/Codex 差别。
+- 课上：abort 两路（自然语言 vs AbortSignal）；`aborted` 是 I/O 被掐断的 `stopReason`，不是模型主动输出。
+- 课上：`signal` 是 run 级共享（B），诞生 `agent.ts` ~L512，进 loop `agent-loop.ts` L167；不是内层 while 条件变量。
+- 文稿：增加「读代码前：三类状态 ABC」。
+- **今日停：** 先读源码再继续；外层 follow-up / V3–V5 细讲未开始。
 
 ## 文末 Checklist
 
