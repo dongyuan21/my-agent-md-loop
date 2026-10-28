@@ -1,6 +1,6 @@
 # 从五步 Agent Loop 演进到 Pi runLoop
 
-> 协作底稿：你和 PIAgent的学习bot 都可以改这份文件。课上进度：已过 V0–V2；下一步讲 V3 beforeToolCall。
+> 协作底稿：你和 PIAgent的学习bot 都可以改这份文件。已补「读代码前：三类状态」（含 signal 等 run 级共享）；课上仍教 V0–V2，穿插 stop/abort；下一步 outer follow-up。
 
 > 面向面试口述与宿主实现：用「一步一改」把会写的五步循环，长成 Pi 1.1.0 风格的 Harness。
 >
@@ -23,6 +23,38 @@
 你伪代码里的 `buildContext`，在 Pi 里会拆成 `prepareNextTurn` / `transformContext` / `convertToLlm` 一类钩子——上下文组装和压缩是 Harness 的职责，不是模型自己变聪明。这块我们约好以后细抠，文中先一笔带过。
 
 ---
+
+---
+
+## 读代码前：三类状态（别猜共享变量）
+
+光盯 `while` 会猜。先分清状态落在哪一层。
+
+### A. 内层调度变量（loop 自己 `let`，每圈改）
+
+| 名字 | 作用 |
+|---|---|
+| `hasMoreToolCalls` | 还有没有工具要接着转 |
+| `pendingMessages` | 本圈要先入 history 的插话 |
+| `turn` / `MAX_TURNS` | 步数预算 |
+
+### B. Run 级共享（一次 run 创建，整段 loop 共用）
+
+| 名字 | 在哪 | 谁改、谁读 |
+|---|---|---|
+| `abortController` / `signal` | `agent.ts` 的 `activeRun`；传入 `runLoop`（约 L167） | UI 调 `abort()` 写入；`callModel` / 工具 / 钩子只读 |
+| `currentContext`（含 messages） | `runLoop` 内 | 每圈 push assistant / tool / steering；钩子可换 context |
+| `config` | `runLoop` 内 | `prepareNextTurn` / `prepareRequest` 可能换 model 等 |
+| `newMessages` | `runLoop` 内 | 本次 run 新产生的消息；结束时 `agent_end` |
+| `steeringQueue` / `followUpQueue` | `Agent` 实例上 | UI 入队；loop 经 `getSteeringMessages` / `getFollowUpMessages` 取出 |
+
+`signal` 像急停开关：开跑时接上，**不是**内层 while 条件里的标志位。`aborted` 是 I/O 被掐断后的 `stopReason`，不是模型「输出」的业务词。
+
+### C. 回调（共享能力，不是共享数据）
+
+`beforeToolCall`、`finishTurn`、`getSteeringMessages`、`getFollowUpMessages`… 挂在 `config` 上，loop 到点调用。
+
+**口诀：** 先看 B（run 从哪来、取消令牌谁持有）→ 再看 A（while 怎么转）→ 最后看 C（钩子）。
 
 ## V0 — 最简五步（可口述开场）
 
